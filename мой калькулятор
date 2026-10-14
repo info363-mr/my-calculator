@@ -1,0 +1,129 @@
+text
+index.html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Мой калькулятор</title>
+<style>
+* {
+box-sizing: border-box;
+}
+body {
+margin: 0;
+min-height: 100vh;
+display: grid;
+place-items: center;
+padding: 20px;
+font-family: Arial, sans-serif;
+background: #eef2f7;
+color: #172033;
+}
+.calculator {
+width: 100%;
+max-width: 380px;
+padding: 24px;
+background: white;
+border-radius: 20px;
+box-shadow: 0 8px 30px #00000015;
+}
+h1 {
+margin-top: 0;
+font-size: 26px;
+}
+label {
+display: block;
+margin-top: 16px;
+margin-bottom: 6px;
+}
+input, select, button {
+width: 100%;
+padding: 14px;
+border: 1px solid #ccd3df;
+border-radius: 10px;
+
+font-size: 18px;
+}
+button {
+margin-top: 20px;
+border: none;
+background: #2563eb;
+color: white;
+cursor: pointer;
+}
+#result {
+margin-bottom: 0;
+padding: 16px;
+border-radius: 10px;
+background: #eef2f7;
+overflow-wrap: anywhere;
+}
+</style>
+</head>
+<body>
+<main class="calculator">
+<h1>Мой калькулятор</h1>
+<form id="calculator-form">
+<label for="first">Первое число</label>
+<input id="first" type="number" step="any"
+placeholder="Например, 10" required>
+<label for="operation">Действие</label>
+<select id="operation">
+<option value="+">Сложить (+)</option>
+<option value="-">Вычесть (−)</option>
+<option value="*">Умножить (×)</option>
+<option value="/">Разделить (÷)</option>
+</select>
+<label for="second">Второе число</label>
+<input id="second" type="number" step="any"
+placeholder="Например, 5" required>
+<button type="submit">Посчитать</button>
+</form>
+<p id="result" role="status" aria-live="polite">
+Здесь появится результат
+</p>
+
+</main>
+<script>
+const form = document.getElementById("calculator-form");
+const result = document.getElementById("result");
+form.addEventListener("submit", function (event) {
+event.preventDefault();
+const a = document.getElementById("first").valueAsNumber;
+const b = document.getElementById("second").valueAsNumber;
+const operation = document.getElementById("operation").value;
+if (!Number.isFinite(a) || !Number.isFinite(b)) {
+result.textContent = "Введите два корректных числа";
+return;
+}
+let answer;
+switch (operation) {
+case "+":
+answer = a + b;
+break;
+case "-":
+answer = a - b;
+break;
+case "*":
+answer = a * b;
+break;
+case "/":
+if (b === 0) {
+result.textContent = "На ноль делить нельзя";
+return;
+}
+answer = a / b;
+break;
+}
+if (!Number.isFinite(answer)) {
+result.textContent = "Результат слишком большой";
+return;
+}
+result.textContent = "Результат: " +
+Number(answer.toPrecision(12)).toString();
+});
+</script>
+
+</body>
+</html>
